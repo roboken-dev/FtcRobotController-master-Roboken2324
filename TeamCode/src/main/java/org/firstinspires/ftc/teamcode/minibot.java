@@ -38,7 +38,7 @@ public class minibot {
     public DcMotor motorBack;
     public DcMotor motorLeft;
     public DcMotor motorRight;
-    public Servo servoTest;
+    public DcMotor arm;
     public Servo wrist;
     private ElapsedTime     runtime = new ElapsedTime();
 
@@ -53,8 +53,8 @@ public class minibot {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.3;
 
-    public DcMotor lift;
-    public DcMotor arm;
+
+
 
 
 
@@ -72,9 +72,8 @@ public class minibot {
         motorBack = hwMap.dcMotor.get("motorBack");
         motorLeft = hwMap.dcMotor.get("motorLeft");
         motorRight =hwMap.dcMotor.get("motorRight");
-        lift = hwMap.dcMotor.get("lift");
+
         arm = hwMap.dcMotor.get("arm");
-        servoTest = hwMap.servo.get("servo");
         wrist = hwMap.servo.get("wrist");
 
 
@@ -93,7 +92,6 @@ public class minibot {
         motorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         imu = hwMap.get(BNO055IMU.class, "imu");
