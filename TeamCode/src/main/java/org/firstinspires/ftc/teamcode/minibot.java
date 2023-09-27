@@ -80,11 +80,6 @@ public class minibot {
 
 
 
-        //sensorColor = hwMap.get(ColorSensor.class,"colorSensor");
-        //sensorTouch = hwMap.get(DigitalChannel.class,"touchSensor");
-
-
-
 
 
         motorFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -102,96 +97,7 @@ public class minibot {
     }
 
 
-/*
-commented out methods need to be updated
- */
 
-   /* public void encoderDrive(double speed,
-                             double sideInches, double forwardInches,
-                             double timeoutS, LinearOpMode opmode) throws InterruptedException {
-        int newFrontTarget;
-        int newLeftTarget;
-        int newBackTarget;
-        int newRightTarget;
-
-        // Send telemetry message to signify robot waiting;
-        opmode.telemetry.addData("Status", "Resetting Encoders");    //
-        opmode.telemetry.update();
-
-        initRunWithEncoder();
-
-        // Send telemetry message to indicate successful Encoder reset
-        opmode.telemetry.addData("Path0", "Starting at %7d :%7d",
-                motorFront.getCurrentPosition(),
-                motorBack.getCurrentPosition(),
-                motorLeft.getCurrentPosition(),
-                motorRight.getCurrentPosition());
-        opmode.telemetry.update();
-
-
-        // Ensure that the opmode is still active
-        if (opmode.opModeIsActive()) {
-
-            // Determine new target position, and pass to motor controller
-            newFrontTarget = (motorFront.getCurrentPosition() + (int) (sideInches * COUNTS_PER_INCH));
-            newLeftTarget = (motorLeft.getCurrentPosition() + (int) (forwardInches * COUNTS_PER_INCH));
-            newBackTarget = -(motorBack.getCurrentPosition() + (int) (sideInches * COUNTS_PER_INCH));
-            newRightTarget = -(motorRight.getCurrentPosition() + (int) (forwardInches * COUNTS_PER_INCH));
-
-            motorFront.setTargetPosition(newFrontTarget);
-            motorBack.setTargetPosition(newBackTarget);
-            motorLeft.setTargetPosition(newLeftTarget);
-            motorRight.setTargetPosition(newRightTarget);
-
-            opmode.telemetry.addData("Path1", "Running to %7d :%7d : %d : %d", newFrontTarget, newLeftTarget, newBackTarget, newRightTarget);
-            opmode.telemetry.update();
-            opmode.sleep(2000);
-
-            // Turn On RUN_TO_POSITION
-            motorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            // reset the timeout time and start motion.
-            runtime.reset();
-
-            motorFront.setPower(Math.abs(speed));
-            motorBack.setPower(Math.abs(speed));
-            motorLeft.setPower(Math.abs(speed));
-            motorRight.setPower(Math.abs(speed));
-
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-            while (opmode.opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (motorFront.isBusy() && motorLeft.isBusy() && motorBack.isBusy() && motorRight.isBusy())) {
-
-                // Display it for the driver.
-                opmode.telemetry.addData("Path1", "Running to %7d :%7d : %d : %d", newFrontTarget, newLeftTarget, newBackTarget, newRightTarget);
-                opmode.telemetry.addData("Path2", "Running at %7d :%7d : %7d : %7d",
-                        motorFront.getCurrentPosition(),
-                        motorBack.getCurrentPosition(),
-                        motorLeft.getCurrentPosition(),
-                        motorRight.getCurrentPosition());
-                opmode.telemetry.update();
-
-            }
-
-            // Stop all motion;
-            motorFront.setPower(0);
-            motorBack.setPower(0);
-            motorLeft.setPower(0);
-            motorRight.setPower(0);
-
-            initRunWithoutEncoder();
-            // Turn off RUN_TO_POSITION
-
-        }
-    }*/
 
    public void encoderSideDrive(double speed,
                             double sideInches,
@@ -382,58 +288,8 @@ commented out methods need to be updated
     }
 
 
-/*
-    public void driveUntilTouch(double speed, LinearOpMode opmode) throws InterruptedException
-    {
-        driveForward(speed);
-        while (sensorTouch.getState()==true&&!opmode.isStopRequested())
-        {
-            if (sensorTouch.getState() == true) {
-                opmode.telemetry.addData("Digital Touch", "Is Not Pressed");
-            } else {
-                opmode.telemetry.addData("Digital Touch", "Is Pressed");
-            }
-            opmode.telemetry.update();
-        }
-        stopDriving();
-    }
-
-*/
 
 
-/*
-    public void driveUntilTouch(double speed, LinearOpMode opmode) throws InterruptedException
-    {
-        driveForward(speed);
-        while (sensorTouch.getState()==true&&!opmode.isStopRequested())
-        {
-            if (sensorTouch.getState() == true) {
-                opmode.telemetry.addData("Digital Touch", "Is Not Pressed");
-            } else {
-                opmode.telemetry.addData("Digital Touch", "Is Pressed");
-            }
-            opmode.telemetry.update();
-        }
-        stopDriving();
-    }
-
-*/
-
-    /* public void driveUntilColor(double speed, double colorValue, LinearOpMode opmode) throws InterruptedException {
-        float hsvValues[]={300F,300F,300F};
-        Color.RGBToHSV(sensorColor.red()*255, sensorColor.green()*255,sensorColor.blue()*255,hsvValues);
-
-        driveForward(speed);
-//&&hsvValues[0]>(colorValue-5.0)
-        while (hsvValues[0]<(colorValue)&&!opmode.isStopRequested())
-        {
-            Color.RGBToHSV(sensorColor.red()*255, sensorColor.green()*255,sensorColor.blue()*255,hsvValues);
-        }
-
-
-        stopDriving();
-    }
-*/
 
 
     public void stopDriving()
@@ -443,19 +299,7 @@ commented out methods need to be updated
         motorLeft.setPower(0);
         motorBack.setPower(0);
     }
-/*
 
-    public void turnLeftTime(double speed,long time) throws InterruptedException {
-        frontLeft.setPower(-speed);
-        frontRight.setPower(speed);
-        rearLeft.setPower(-speed);
-        rearRight.setPower(speed);
-        Thread.sleep(time);
-        stopDriving();
-
-
-    }
-*/
 
 /*
     public void turnLeftAngle(double speed,int angleReading, LinearOpMode opmode) throws InterruptedException {
