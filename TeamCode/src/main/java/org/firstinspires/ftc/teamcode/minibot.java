@@ -234,6 +234,7 @@ public class minibot {
     }
 
 
+
         public void initRunWithEncoder()
         {
             motorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

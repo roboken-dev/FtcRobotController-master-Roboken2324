@@ -1,29 +1,33 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
-@Disabled
 @Autonomous
-
-public class ColourMassDetectionOpMode extends OpMode {
+public class ColourMassDetectionLinearOpMode extends LinearOpMode {
 	private VisionPortal visionPortal;
 	private ColourMassDetectionProcessor colourMassDetectionProcessor;
 	minibot robot = new minibot();
-
+	
+	/**
+	 * User-defined init method
+	 * <p>
+	 * This method will be called once, when the INIT button is pressed.
+	 */
 	@Override
-	public void init() {
+	public void runOpMode() throws InterruptedException{
 		// the current range set by lower and upper is the full range
 		// HSV takes the form: (HUE, SATURATION, VALUE)
 		// which means to select our colour, only need to change HUE
 		// the domains are: ([0, 180], [0, 255], [0, 255])
 		// this is tuned to detect red, so you will need to experiment to fine tune it for your robot
 		// and experiment to fine tune it for blue
+		robot.init(hardwareMap, this);
 		Scalar lower = new Scalar(150, 100, 100); // the lower hsv threshold for your detection
 		Scalar upper = new Scalar(180, 255, 255); // the upper hsv threshold for your detection
 		double minArea = 100; // the minimum area for the detection to consider for your prop
@@ -45,36 +49,20 @@ public class ColourMassDetectionOpMode extends OpMode {
 		// or how to manually edit the exposure and gain, to account for different lighting conditions
 		// these may be extra features for you to work on to ensure that your robot performs
 		// consistently, even in different environments
-	}
+
 	
-	/**
-	 * User-defined init_loop method
-	 * <p>
-	 * This method will be called repeatedly during the period between when
-	 * the init button is pressed and when the play button is pressed (or the
-	 * OpMode is stopped).
-	 * <p>
-	 * This method is optional. By default, this method takes no action.
-	 */
-	@Override
-	public void init_loop() {
+
+
+	 while (!isStarted()) {
 		telemetry.addData("Currently Recorded Position", colourMassDetectionProcessor.getRecordedPropPosition());
 		telemetry.addData("Camera State", visionPortal.getCameraState());
 		telemetry.addData("Currently Detected Mass Center", "x: " + colourMassDetectionProcessor.getLargestContourX() + ", y: " + colourMassDetectionProcessor.getLargestContourY());
 		telemetry.addData("Currently Detected Mass Area", colourMassDetectionProcessor.getLargestContourArea());
 	}
 	
-	/**
-	 * User-defined start method
-	 * <p>
-	 * This method will be called once, when the play button is pressed.
-	 * <p>
-	 * This method is optional. By default, this method takes no action.
-	 * <p>
-	 * Example usage: Starting another thread.
-	 */
-	@Override
-	public void start() {
+
+		waitForStart();
+
 		// shuts down the camera once the match starts, we dont need to look any more
 		if (visionPortal.getCameraState() == VisionPortal.CameraState.STREAMING) {
 			visionPortal.stopLiveView();
@@ -95,7 +83,11 @@ public class ColourMassDetectionOpMode extends OpMode {
 		switch (recordedPropPosition) {
 			case LEFT:
 				// code to do if we saw the prop on the left
-
+				telemetry.addData("movement: ", "I will go left");
+				telemetry.update();
+				robot.encoderForwardDrive(0.25,-3,5,this);
+				robot.encoderSideDrive(0.25,24,5,this);
+				robot.encoderForwardDrive(0.25,-28,5,this);
 
 				break;
 			case UNFOUND: // we can also just add the unfound case here to do fallthrough intstead of the overriding method above, whatever you prefer!
@@ -106,32 +98,13 @@ public class ColourMassDetectionOpMode extends OpMode {
 				// code to do if we saw the prop on the right
 				break;
 		}
-	}
-	
-	/**
-	 * User-defined loop method
-	 * <p>
-	 * This method will be called repeatedly during the period between when
-	 * the play button is pressed and when the OpMode is stopped.
-	 */
-	@Override
-	public void loop() {
-	
-	}
-	
-	/**
-	 * User-defined stop method
-	 * <p>
-	 * This method will be called once, when this OpMode is stopped.
-	 * <p>
-	 * Your ability to control hardware from this method will be limited.
-	 * <p>
-	 * This method is optional. By default, this method takes no action.
-	 */
-	@Override
-	public void stop() {
-		// this closes down the portal when we stop the code, its good practice!
+
 		colourMassDetectionProcessor.close();
 		visionPortal.close();
 	}
+	
+
+
+
+
 }
