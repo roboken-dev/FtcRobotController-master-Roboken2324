@@ -14,11 +14,7 @@ public class ColourMassDetectionLinearOpMode extends LinearOpMode {
 	private ColourMassDetectionProcessor colourMassDetectionProcessor;
 	minibot robot = new minibot();
 	
-	/**
-	 * User-defined init method
-	 * <p>
-	 * This method will be called once, when the INIT button is pressed.
-	 */
+
 	@Override
 	public void runOpMode() throws InterruptedException{
 		// the current range set by lower and upper is the full range
@@ -85,6 +81,7 @@ public class ColourMassDetectionLinearOpMode extends LinearOpMode {
 				// code to do if we saw the prop on the left
 				telemetry.addData("movement: ", "I will go left");
 				telemetry.update();
+				sleep(3000);
 				robot.encoderForwardDrive(0.25,-3,5,this);
 				robot.encoderSideDrive(0.25,24,5,this);
 				robot.encoderForwardDrive(0.25,-28,5,this);
@@ -93,9 +90,15 @@ public class ColourMassDetectionLinearOpMode extends LinearOpMode {
 			case UNFOUND: // we can also just add the unfound case here to do fallthrough intstead of the overriding method above, whatever you prefer!
 			case MIDDLE:
 				// code to do if we saw the prop on the middle
+				telemetry.addData("movement: ", "I will go to center");
+				telemetry.update();
+				sleep(3000);
 				break;
 			case RIGHT:
 				// code to do if we saw the prop on the right
+				telemetry.addData("movement: ", "I will go right");
+				telemetry.update();
+				sleep(3000);
 				break;
 		}
 
